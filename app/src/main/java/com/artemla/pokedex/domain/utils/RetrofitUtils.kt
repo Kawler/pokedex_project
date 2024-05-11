@@ -58,7 +58,6 @@ object RetrofitUtils {
             val response = pokemonCountService.getPokemonCount()
             response.count
         } catch (e: Exception) {
-            // Handle network or other errors
             0
         }
     }
@@ -69,7 +68,6 @@ object RetrofitUtils {
             val response = pokemonListService.getPokemonList(url)
             response.results
         } catch (e: Exception) {
-            // Handle network or other errors
             emptyList<PokemonListItem>()
         }.toMutableList()
     }
@@ -99,29 +97,30 @@ object RetrofitUtils {
     }
 
     suspend fun fetchEvolutionChain(url: String): List<PokemonEvolution> {
-        val response = pokemonEvolutionService.getEvolutionChain(url)
         val evolutionList = mutableListOf<PokemonEvolution>()
-        if (response.chain?.evolvesTo != null) {
-            evolutionList.add(
-                PokemonEvolution(
-                    response.chain.species.name,
-                    response.chain.species.url
+        try {
+            val response = pokemonEvolutionService.getEvolutionChain(url)
+            if (response.chain?.evolvesTo != null) {
+                evolutionList.add(
+                    PokemonEvolution(
+                        response.chain.species.name,
+                        response.chain.species.url
+                    )
                 )
-            )
-        } else {
-            println(evolutionList)
-            return evolutionList
-        }
-
-        fun traverseEvolutionChain(evolvesTo: List<EvolvesTo>) {
-            for (evolution in evolvesTo) {
-                evolutionList.add(PokemonEvolution(evolution.species.name, evolution.species.url))
-                traverseEvolutionChain(evolution.evolvesTo)
+            } else {
+                return evolutionList
             }
-        }
 
-        traverseEvolutionChain(response.chain.evolvesTo)
-        println(evolutionList)
+            fun traverseEvolutionChain(evolvesTo: List<EvolvesTo>) {
+                for (evolution in evolvesTo) {
+                    evolutionList.add(PokemonEvolution(evolution.species.name, evolution.species.url))
+                    traverseEvolutionChain(evolution.evolvesTo)
+                }
+            }
+            traverseEvolutionChain(response.chain.evolvesTo)
+        } catch (e: Exception) {
+            Log.i("EEEError", e.toString())
+        }
         return evolutionList
     }
 }

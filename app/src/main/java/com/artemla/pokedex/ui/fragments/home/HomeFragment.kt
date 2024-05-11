@@ -76,7 +76,7 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
         }
 
         binding.homeFab.setOnClickListener {
-            binding.homeRv.scrollTo(0, 0)
+            binding.homeRv.scrollToPosition(0)
         }
 
         binding.homeSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
