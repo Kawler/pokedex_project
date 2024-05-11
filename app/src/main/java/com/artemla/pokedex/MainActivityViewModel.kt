@@ -24,12 +24,11 @@ class MainActivityViewModel: ViewModel() {
                     val limit = if (offset + BATCH_SIZE <= pokemonCount) BATCH_SIZE else pokemonCount - offset
                     val batchPokemonList = repository.fetchPokemonList(limit, offset)
                     val batchPokemonData = repository.fetchPokemonDetails(batchPokemonList.map { it.url })
-                    _pokemonData.value = batchPokemonData
+                    _pokemonData.postValue(_pokemonData.value?.apply { addAll(batchPokemonData) } ?: batchPokemonData.toMutableList())
                     offset += BATCH_SIZE
                 }
-
             } catch (e: Exception) {
-
+                // Handle the exception
             }
         }
     }

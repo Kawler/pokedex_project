@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemla.pokedex.R
@@ -41,11 +42,15 @@ class PokemonFragment() : Fragment() {
         _binding = FragmentPokemonBinding.inflate(inflater, container, false)
         val pokemonDetailsResponse : PokemonDetailsResponse = requireArguments().getParcelable("pokemonDetails")!!
         handlePokemonType(requireContext(),pokemonDetailsResponse.types[0].type.name, binding.pokemonBg)
-        Glide
-            .with(requireContext())
-            .load(pokemonDetailsResponse.sprites.front_default)
-            .placeholder(R.drawable.ic_question)
-            .into(binding.pokemonImg)
+        if (pokemonDetailsResponse.sprites.front_default != null) {
+            Glide
+                .with(requireContext())
+                .load(pokemonDetailsResponse.sprites.front_default)
+                .placeholder(R.drawable.ic_question)
+                .into(binding.pokemonImg)
+        } else {
+            binding.pokemonImg.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_question))
+        }
         binding.pokemonHeight.text = pokemonDetailsResponse.height.toString()
         binding.pokemonName.text = pokemonDetailsResponse.name.lowercase(Locale.ENGLISH)
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
@@ -75,8 +80,22 @@ class PokemonFragment() : Fragment() {
 
         binding.pokemonWeaknessesRv.layoutManager = GridLayoutManager(requireContext(),2)
         binding.pokemonWeaknessesRv.adapter = WeaknessAdapter(pokemonDetailsResponse.types.map { getPokemonTypeFromString(it.type.name) })
-        binding.pokemonEvolutionsRv.layoutManager = LinearLayoutManager(requireContext())
-        binding.pokemonEvolutionsRv.adapter = EvolutionAdapter(requireContext(),viewModel.getEvolutions(pokemonDetailsResponse.species.url))
+        if (viewModel.getEvolutions(pokemonDetailsResponse.species.url).size != null) {
+            binding.pokemonEvolutionsRv.layoutManager = LinearLayoutManager(requireContext())
+            binding.pokemonEvolutionsRv.adapter = EvolutionAdapter(
+                requireContext(),
+                viewModel.getEvolutions(pokemonDetailsResponse.species.url)
+            )
+        } else {
+            binding.pokemonEvolutionsRv.visibility = View.GONE
+            binding.pokemonEvolutionsText.visibility = View.GONE
+        }
+
+        binding.pokemonBackBtn.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.white))
+        binding.pokemonFavouriteBtn.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.favourite_inactive))
+        binding.pokemonBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         return binding.root
     }

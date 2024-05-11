@@ -16,5 +16,5 @@ data class Species(
 )
 
 data class Sprites(
-    val front_default: String
+    val front_default: String?
 )

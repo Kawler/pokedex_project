@@ -5,10 +5,10 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class PokemonDetailsResponse(
-    val height: Double,
+    val height: Int,
     val name: String,
     val types: @RawValue List<TypeResponse>,
-    val weight: Double,
+    val weight: Int,
     val species: @RawValue Species,
     val sprites: @RawValue Sprites,
     var id: Int

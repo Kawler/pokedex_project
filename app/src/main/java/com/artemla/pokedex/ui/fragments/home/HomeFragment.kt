@@ -10,7 +10,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemla.pokedex.MainActivityViewModel
 import com.artemla.pokedex.R
@@ -22,7 +21,6 @@ import com.artemla.pokedex.domain.entities.PokemonType
 import com.artemla.pokedex.domain.entities.PokemonTypeListItem
 import com.artemla.pokedex.ui.modals.order.OrderModalFragment
 import com.artemla.pokedex.ui.modals.types.TypesModalFragment
-import com.google.android.material.appbar.AppBarLayout
 import java.util.Locale
 import kotlin.math.abs
 
@@ -75,22 +73,23 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
                 }
             }
 
-            binding.homeFab.setOnClickListener {
-                binding.homeRv.scrollTo(0,0)
+        }
+
+        binding.homeFab.setOnClickListener {
+            binding.homeRv.scrollTo(0, 0)
+        }
+
+        binding.homeSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
 
-            binding.homeSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                pokemonListAdapter.filter.filter(newText.orEmpty())
+                return true
+            }
+        })
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    pokemonListAdapter.filter.filter(newText.orEmpty())
-                    return true
-                }
-            })
-
-        }
         activityViewModel.pokemonData.observe(viewLifecycleOwner) { pokemonData ->
             pokemonListAdapter.addData(pokemonData)
         }
@@ -108,42 +107,51 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
 
     override fun onPokemonTypeClicked(pokemonTypeListItem: PokemonTypeListItem) {
         binding.homeFilterBtnType.setTextColor(Color.parseColor(pokemonTypeListItem.textColor))
-        binding.homeFilterBtnType.backgroundTintList = ColorStateList.valueOf(Color.parseColor(pokemonTypeListItem.color))
-        TextViewCompat.setCompoundDrawableTintList(binding.homeFilterBtnType,ColorStateList.valueOf(Color.parseColor(pokemonTypeListItem.textColor)) )
+        binding.homeFilterBtnType.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(pokemonTypeListItem.color))
+        TextViewCompat.setCompoundDrawableTintList(
+            binding.homeFilterBtnType,
+            ColorStateList.valueOf(Color.parseColor(pokemonTypeListItem.textColor))
+        )
         if (pokemonTypeListItem.pokemonType == PokemonType.ALL) {
             binding.homeFilterBtnType.text = requireContext().getString(R.string.all_types)
             binding.homeFilterBtnOrder.text = requireContext().getString(R.string.smallest_index)
             pokemonListAdapter.allTypes()
         } else {
-            binding.homeFilterBtnType.text = pokemonTypeListItem.pokemonType.name.lowercase(Locale.ENGLISH)
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
+            binding.homeFilterBtnType.text =
+                pokemonTypeListItem.pokemonType.name.lowercase(Locale.ENGLISH)
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
             pokemonListAdapter.filterByType(pokemonTypeListItem.pokemonType)
         }
         typesBottomSheet.dismiss()
     }
 
     override fun onSmallestOrderClicked() {
-        binding.homeFilterBtnOrder.text = requireContext().getString(R.string.smallest_index).lowercase(Locale.ENGLISH)
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
+        binding.homeFilterBtnOrder.text =
+            requireContext().getString(R.string.smallest_index).lowercase(Locale.ENGLISH)
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
         orderBottomSheet.dismiss()
         pokemonListAdapter.sortByID()
     }
 
     override fun onHighestOrderClicked() {
-        binding.homeFilterBtnOrder.text = requireContext().getString(R.string.highest_index).lowercase(Locale.ENGLISH)
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
+        binding.homeFilterBtnOrder.text =
+            requireContext().getString(R.string.highest_index).lowercase(Locale.ENGLISH)
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
         orderBottomSheet.dismiss()
         pokemonListAdapter.sortByDescendingID()
     }
 
     override fun onAZClicked() {
-        binding.homeFilterBtnOrder.text = requireContext().getString(R.string.a_z).uppercase(Locale.ENGLISH)
+        binding.homeFilterBtnOrder.text =
+            requireContext().getString(R.string.a_z).uppercase(Locale.ENGLISH)
         orderBottomSheet.dismiss()
         pokemonListAdapter.sortByName()
     }
 
     override fun onZAClicked() {
-        binding.homeFilterBtnOrder.text = requireContext().getString(R.string.z_a).uppercase(Locale.ENGLISH)
+        binding.homeFilterBtnOrder.text =
+            requireContext().getString(R.string.z_a).uppercase(Locale.ENGLISH)
         orderBottomSheet.dismiss()
         pokemonListAdapter.sortByAlphabeticalDescending()
     }

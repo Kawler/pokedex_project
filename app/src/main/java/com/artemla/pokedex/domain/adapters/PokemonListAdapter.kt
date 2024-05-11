@@ -3,19 +3,15 @@ package com.artemla.pokedex.domain.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.artemla.pokedex.R
-import com.artemla.pokedex.data.singletons.PokemonTypeSingleton
+import com.artemla.pokedex.data.singletons.PokemonTypesUtils
 import com.artemla.pokedex.databinding.RvPokemonsItemBinding
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.artemla.pokedex.domain.entities.PokemonType
@@ -26,8 +22,8 @@ import java.util.Locale
 class PokemonListAdapter(private val context: Context) :
     RecyclerView.Adapter<PokemonListAdapter.PokemonViewHolder>(), Filterable {
 
-    private val pokemonList = mutableListOf<PokemonDetailsResponse>()
-    private var filteredPokemonList = mutableListOf<PokemonDetailsResponse>()
+    private val pokemonSet = mutableSetOf<PokemonDetailsResponse>()
+    private var filteredPokemonSet = mutableSetOf<PokemonDetailsResponse>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding =
@@ -36,26 +32,32 @@ class PokemonListAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        val pokemon = if (filteredPokemonList.isNotEmpty()) {
-            filteredPokemonList[position]
+        val pokemon = if (filteredPokemonSet.isNotEmpty()) {
+            filteredPokemonSet.elementAtOrNull(position)
         } else {
-            pokemonList[position]
+            pokemonSet.elementAtOrNull(position)
         }
-        holder.bind(pokemon)
+        pokemon?.let { holder.bind(it) }
     }
 
     override fun getItemCount(): Int {
-        return if (filteredPokemonList.isNotEmpty()) {
-            filteredPokemonList.size
+        return if (filteredPokemonSet.isNotEmpty()) {
+            filteredPokemonSet.size
         } else {
-            pokemonList.size
+            pokemonSet.size
         }
     }
 
     fun addData(newData: List<PokemonDetailsResponse>) {
-        val startPosition = pokemonList.size
-        pokemonList.addAll(newData)
-        notifyItemRangeInserted(startPosition, newData.size)
+        val startPosition = pokemonSet.size
+        val diff = newData.size - pokemonSet.size
+        if (newData.size > pokemonSet.size) {
+            pokemonSet.addAll(newData.subList(pokemonSet.size, newData.size))
+            notifyItemRangeInserted(startPosition, diff)
+        } else {
+            pokemonSet.addAll(newData)
+            notifyItemRangeInserted(startPosition, newData.size)
+        }
     }
 
     inner class PokemonViewHolder(private val binding: RvPokemonsItemBinding) :
@@ -64,31 +66,32 @@ class PokemonListAdapter(private val context: Context) :
         @SuppressLint("SetTextI18n")
         fun bind(pokemon: PokemonDetailsResponse) {
             binding.homeRvFavourite.backgroundTintList =
-                ColorStateList.valueOf(Color.parseColor("#e36e8d"))
+                ColorStateList.valueOf(context.getColor(R.color.favourite_inactive))
             binding.homeRvName.text = pokemon.name.lowercase(Locale.ENGLISH)
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
             binding.homeRvIndex.text = "№" + pokemon.id.toString()
 
             binding.homeRvType2.visibility = View.VISIBLE
 
-            handlePokemonType(
+            PokemonTypesUtils.handlePokemonType(
+                context,
                 pokemon.types[0].type.name.lowercase(Locale.ENGLISH),
                 binding.homeRvImg
             )
 
             if (pokemon.types.size > 1) {
                 binding.homeRvType1.text = pokemon.types[0].type.name
-                handlePokemonTypes(
+                PokemonTypesUtils.handlePokemonTypesText(
                     pokemon.types[0].type.name.lowercase(Locale.ENGLISH),
                     binding.homeRvType1
                 )
                 binding.homeRvType2.text = pokemon.types[1].type.name
-                handlePokemonTypes(
+                PokemonTypesUtils.handlePokemonTypesText(
                     pokemon.types[1].type.name.lowercase(Locale.ENGLISH),
                     binding.homeRvType2
                 )
             } else {
-                handlePokemonTypes(
+                PokemonTypesUtils.handlePokemonTypesText(
                     pokemon.types[0].type.name.lowercase(Locale.ENGLISH),
                     binding.homeRvType1
                 )
@@ -107,156 +110,14 @@ class PokemonListAdapter(private val context: Context) :
         }
     }
 
-    private fun handlePokemonType(type: String, view: ImageView) {
-        for (pokemonType in PokemonType.entries) {
-            if (pokemonType.name.lowercase(Locale.ENGLISH) == type) {
-                when (pokemonType) {
-                    PokemonType.NORMAL -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_normal_type)
-                    }
-
-                    PokemonType.FIRE -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_fire_type)
-                    }
-
-                    PokemonType.WATER -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_water_type)
-                    }
-
-                    PokemonType.ELECTRIC -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_electric_type)
-                    }
-
-                    PokemonType.GRASS -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_grass_type)
-                    }
-
-                    PokemonType.ICE -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_ice_type)
-                    }
-
-                    PokemonType.FIGHTING -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_fighting_type)
-                    }
-
-                    PokemonType.POISON -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_poison_type)
-                    }
-
-                    PokemonType.GROUND -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_ground_type)
-                    }
-
-                    PokemonType.FLYING -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_flying_type)
-                    }
-
-                    PokemonType.PSYCHIC -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_psychic_type)
-                    }
-
-                    PokemonType.BUG -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_bug_type)
-                    }
-
-                    PokemonType.ROCK -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_rock_type)
-                    }
-
-                    PokemonType.GHOST -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_ghost_type)
-                    }
-
-                    PokemonType.DRAGON -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_dragon_type)
-                    }
-
-                    PokemonType.DARK -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_dark_type)
-                    }
-
-                    PokemonType.STEEL -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_iron_type)
-                    }
-
-                    PokemonType.FAIRY -> {
-                        view.background =
-                            ContextCompat.getDrawable(context, R.drawable.bg_fairy_type)
-                    }
-
-                    PokemonType.ALL -> {
-                    }
-
-                    PokemonType.NEW -> {
-                    }
-                }
-                break
-            }
-        }
-    }
-
-    private fun handlePokemonTypes(type: String, view: TextView) {
-        val pokemonTypeListItem =
-            PokemonTypeSingleton.pokemonTypeList.find { it.pokemonType.name.lowercase(Locale.ENGLISH) == type }
-        pokemonTypeListItem?.let {
-            val backgroundColor = Color.parseColor(it.color)
-            val textColor = Color.parseColor(it.textColor)
-            val iconDrawableRes = getIconDrawableRes(it.pokemonType)
-            view.backgroundTintList = ColorStateList.valueOf(backgroundColor)
-            view.setTextColor(textColor)
-            view.setCompoundDrawablesWithIntrinsicBounds(iconDrawableRes, 0, 0, 0)
-        }
-    }
-
-    private fun getIconDrawableRes(pokemonType: PokemonType): Int {
-        return when (pokemonType) {
-            PokemonType.NORMAL -> R.drawable.ic_normal_type
-            PokemonType.FIRE -> R.drawable.ic_fire_type
-            PokemonType.WATER -> R.drawable.ic_water_type
-            PokemonType.ELECTRIC -> R.drawable.ic_electric_type
-            PokemonType.GRASS -> R.drawable.ic_grass_type
-            PokemonType.ICE -> R.drawable.ic_ice_type
-            PokemonType.FIGHTING -> R.drawable.ic_fighting_type
-            PokemonType.POISON -> R.drawable.ic_poison_type
-            PokemonType.GROUND -> R.drawable.ic_ground_type
-            PokemonType.FLYING -> R.drawable.ic_flying_type
-            PokemonType.PSYCHIC -> R.drawable.ic_psychic_type
-            PokemonType.BUG -> R.drawable.ic_bug_type
-            PokemonType.ROCK -> R.drawable.ic_rock_type
-            PokemonType.GHOST -> R.drawable.ic_ghost_type
-            PokemonType.DRAGON -> R.drawable.ic_dragon_type
-            PokemonType.DARK -> R.drawable.ic_dark_type
-            PokemonType.STEEL -> R.drawable.ic_steel_type
-            PokemonType.FAIRY -> R.drawable.ic_fairy_type
-            else -> R.drawable.ic_normal_type // Default icon
-        }
-    }
-
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val query = constraint?.toString()?.lowercase(Locale.ENGLISH)?.trim()
                 val filteredList = if (query.isNullOrEmpty()) {
-                    pokemonList
+                    pokemonSet
                 } else {
-                    pokemonList.filter {
+                    pokemonSet.filter {
                         it.name.lowercase(Locale.ENGLISH).contains(query) || it.id.toString()
                             .contains(query)
                     }
@@ -268,59 +129,68 @@ class PokemonListAdapter(private val context: Context) :
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 @Suppress("UNCHECKED_CAST")
-                filteredPokemonList = results?.values as MutableList<PokemonDetailsResponse>
+                filteredPokemonSet = results?.values as MutableSet<PokemonDetailsResponse>
                 notifyDataSetChanged()
             }
         }
     }
 
     fun sortByName() {
-        if (filteredPokemonList.isNotEmpty()) {
-            filteredPokemonList.sortBy { it.name.lowercase(Locale.ENGLISH) }
-            notifyDataSetChanged()
+        val sortedList = if (filteredPokemonSet.isNotEmpty()) {
+            filteredPokemonSet.sortedBy { it.name.lowercase(Locale.ENGLISH) }
         } else {
-            pokemonList.sortBy { it.name.lowercase(Locale.ENGLISH) }
-            notifyDataSetChanged()
+            pokemonSet.sortedBy { it.name.lowercase(Locale.ENGLISH) }
         }
+        filteredPokemonSet.clear()
+        filteredPokemonSet.addAll(sortedList)
+        notifyDataSetChanged()
     }
 
     fun sortByID() {
-        filteredPokemonList.sortBy { it.id }
+        val sortedList = pokemonSet.sortedBy { it.id }
+        pokemonSet.clear()
+        pokemonSet.addAll(sortedList)
+        val sortedFilterList = filteredPokemonSet.sortedBy { it.id }
+        filteredPokemonSet.clear()
+        filteredPokemonSet.addAll(sortedFilterList)
         notifyDataSetChanged()
     }
 
     fun allTypes() {
-        filteredPokemonList = mutableListOf()
+        filteredPokemonSet.clear()
         notifyDataSetChanged()
     }
 
     fun sortByDescendingID() {
-        if (filteredPokemonList.isNotEmpty()) {
-            filteredPokemonList.sortByDescending { it.id }
-            notifyDataSetChanged()
+        val sortedList = if (filteredPokemonSet.isNotEmpty()) {
+            filteredPokemonSet.sortedByDescending { it.id }
         } else {
-            pokemonList.sortByDescending { it.id }
-            notifyDataSetChanged()
+            pokemonSet.sortedByDescending { it.id }
         }
+        filteredPokemonSet.clear()
+        filteredPokemonSet.addAll(sortedList)
+        notifyDataSetChanged()
     }
 
     fun filterByType(pokemonType: PokemonType) {
-        filteredPokemonList = pokemonList.filter { pokemon ->
+        filteredPokemonSet.clear()
+        filteredPokemonSet.addAll(pokemonSet.filter { pokemon ->
             pokemon.types.any { type ->
                 type.type.name.equals(pokemonType.name, ignoreCase = true)
             }
-        }.toMutableList()
+        })
         notifyDataSetChanged()
     }
 
     fun sortByAlphabeticalDescending() {
-        if (filteredPokemonList.isNotEmpty()) {
-            filteredPokemonList.sortByDescending { it.name.lowercase(Locale.ENGLISH) }
-            notifyDataSetChanged()
+        val sortedList = if (filteredPokemonSet.isNotEmpty()) {
+            filteredPokemonSet.sortedByDescending { it.name.lowercase(Locale.ENGLISH) }
         } else {
-            pokemonList.sortByDescending { it.name.lowercase(Locale.ENGLISH) }
-            notifyDataSetChanged()
+            pokemonSet.sortedByDescending { it.name.lowercase(Locale.ENGLISH) }
         }
+        filteredPokemonSet.clear()
+        filteredPokemonSet.addAll(sortedList)
+        notifyDataSetChanged()
     }
 }
 

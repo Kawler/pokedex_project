@@ -10,4 +10,6 @@
     <color name="grey">#E9E7E7</color>
     <color name="dark_grey">#7E7E7E</color>
     <color name="pokemon_bg_color">#f1f6e8</color>
+    <color name="favourite_inactive">#FFFFFFFF</color>
+    <color name="favourite_active">#ED0845</color>
 </resources>

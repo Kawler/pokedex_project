@@ -70,12 +70,14 @@
                     android:id="@+id/rv_evolution_type1"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
+                    android:padding="1dp"
                     android:layout_height="15dp"
                     android:importantForAccessibility="no" />
                 <ImageView
                     android:id="@+id/rv_evolution_type2"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
+                    android:padding="1dp"
                     android:background="@drawable/bg_pokemon_types"
                     android:layout_marginStart="5dp"
                     android:layout_height="15dp"

@@ -19,7 +19,7 @@ class PokemonViewModel : ViewModel() {
             species = repository.fetchSpecies(url)!!
             for (entry in species.flavor_text_entries) {
                 if (entry.language.name == "en") {
-                    result = entry.flavor_text
+                    result = entry.flavor_text.replace("\n", " ")
                 }
             }
         }
