@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.artemla.pokedex.ui.fragments.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_pokemonFragment"
+            app:destination="@id/navigation_pokemon" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_favourite"
+        android:name="com.artemla.pokedex.ui.fragments.favorite.FavouriteFragment"
+        android:label="@string/navigation_favourite"
+        tools:layout="@layout/fragment_favourite" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.artemla.pokedex.ui.fragments.profile.ProfileFragment"
+        android:label="@string/navigation_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_region"
+        android:name="com.artemla.pokedex.ui.fragments.region.RegionFragment"
+        android:label="@string/navigation_region"
+        tools:layout="@layout/fragment_region" />
+    <fragment
+        android:id="@+id/navigation_pokemon"
+        android:name="com.artemla.pokedex.ui.fragments.pokemon.PokemonFragment"
+        android:label="Pokemon"
+        tools:layout="@layout/fragment_pokemon">
+        <argument
+            android:name="pokemonDetails"
+            app:argType="com.artemla.pokedex.domain.entities.PokemonDetailsResponse"/>
+    </fragment>
+
+</navigation>

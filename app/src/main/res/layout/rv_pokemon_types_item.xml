@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rv_pokemon_types_item_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:layout_margin="5dp"
+        app:cornerRadius="30dp"
+        android:textSize="20sp"
+        android:clickable="false"
+        android:textAllCaps="false"
+        android:textStyle="bold"/>
+
+</LinearLayout>

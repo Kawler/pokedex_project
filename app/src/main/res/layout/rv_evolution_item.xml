@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="0dp"
+    app:cardCornerRadius="20dp"
+    android:layout_margin="10dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/rv_evolution_bg"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rv_evolution_details"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="4dp">
+
+            <ImageView
+                android:id="@+id/rv_evolution_img"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/pokemon" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/rv_evolution_details"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@id/rv_evolution_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/rv_evolution_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="TextView 1" />
+
+            <TextView
+                android:id="@+id/rv_evolution_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="TextView 2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:background="@drawable/bg_pokemon_types"
+                    android:id="@+id/rv_evolution_type1"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="15dp"
+                    android:importantForAccessibility="no" />
+                <ImageView
+                    android:id="@+id/rv_evolution_type2"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_pokemon_types"
+                    android:layout_marginStart="5dp"
+                    android:layout_height="15dp"
+                    android:importantForAccessibility="no" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

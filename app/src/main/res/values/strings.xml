@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="title_home">Pokédex</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="navigation_region">Region</string>
+    <string name="navigation_favourite">Favourite</string>
+    <string name="navigation_profile">Profile</string>
+    <string name="hint_search_pokemon">Search Pokemon...</string>
+    <string name="home_order_btn_hint">Id ↑</string>
+    <string name="home_type_btn_hint">All Types</string>
+    <string name="modal_types_hint">Choose pokemon type</string>
+    <string name="all_types">All Types</string>
+    <string name="smallest_index">Id ↑</string>
+    <string name="highest_index">Id ↓</string>
+    <string name="a_z">A-Z</string>
+    <string name="z_a">Z-A</string>
+    <string name="select_item_order">Select item order</string>
+    <string name="pokemon_image">Pokemon Image</string>
+    <string name="go_up_hint">Go Up</string>
+    <string name="weaknesses">Weaknesses</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="evolutions">Evolutions</string>
+    <string name="pokemon">Pokemon</string>
+</resources>
