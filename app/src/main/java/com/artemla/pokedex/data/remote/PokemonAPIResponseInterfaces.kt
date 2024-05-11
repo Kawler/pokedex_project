@@ -1,4 +1,4 @@
-package com.artemla.pokedex.domain
+package com.artemla.pokedex.data.remote
 
 import com.artemla.pokedex.domain.entities.PokemonCountResponse
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
@@ -23,7 +23,7 @@ interface PokemonListService {
     suspend fun getPokemonList(@Url url: String): PokemonListResponse
 }
 
-interface PokemonSpeciesService{
+interface PokemonSpeciesService {
     @GET
     suspend fun getSpeciesDetails(@Url url: String): PokemonSpeciesResponse
 }

@@ -1,4 +1,4 @@
-package com.artemla.pokedex.domain
+package com.artemla.pokedex.ui.listners
 
 interface PokemonListOrderListener {
     fun onSmallestOrderClicked()

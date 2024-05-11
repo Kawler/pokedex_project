@@ -1,11 +1,11 @@
-package com.artemla.pokedex.data.singletons
+package com.artemla.pokedex.domain.utils
 
 import android.util.Log
-import com.artemla.pokedex.domain.EvolutionService
-import com.artemla.pokedex.domain.PokemonCountService
-import com.artemla.pokedex.domain.PokemonDetailsService
-import com.artemla.pokedex.domain.PokemonListService
-import com.artemla.pokedex.domain.PokemonSpeciesService
+import com.artemla.pokedex.data.remote.EvolutionService
+import com.artemla.pokedex.data.remote.PokemonCountService
+import com.artemla.pokedex.data.remote.PokemonDetailsService
+import com.artemla.pokedex.data.remote.PokemonListService
+import com.artemla.pokedex.data.remote.PokemonSpeciesService
 import com.artemla.pokedex.domain.entities.EvolvesTo
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.artemla.pokedex.domain.entities.PokemonEvolution
@@ -14,7 +14,6 @@ import com.artemla.pokedex.domain.entities.PokemonSpeciesResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 object RetrofitUtils {
@@ -64,7 +63,7 @@ object RetrofitUtils {
         }
     }
 
-    suspend fun fetchPokemonList(limit: Int,offset: Int): MutableList<PokemonListItem> {
+    suspend fun fetchPokemonList(limit: Int, offset: Int): MutableList<PokemonListItem> {
         return try {
             val url = "https://pokeapi.co/api/v2/pokemon/?limit=$limit&offset=$offset"
             val response = pokemonListService.getPokemonList(url)
@@ -83,7 +82,7 @@ object RetrofitUtils {
                 pokemonDetailsList.add(response)
             }
         } catch (e: Exception) {
-            Log.i("EEEError",e.toString())
+            Log.i("EEEError", e.toString())
         }
         return pokemonDetailsList
     }
@@ -94,7 +93,7 @@ object RetrofitUtils {
             val response = pokemonSpeciesService.getSpeciesDetails(url)
             speciesData = response
         } catch (e: Exception) {
-            Log.i("EEEError",e.toString())
+            Log.i("EEEError", e.toString())
         }
         return speciesData
     }
@@ -103,7 +102,12 @@ object RetrofitUtils {
         val response = pokemonEvolutionService.getEvolutionChain(url)
         val evolutionList = mutableListOf<PokemonEvolution>()
         if (response.chain?.evolvesTo != null) {
-            evolutionList.add(PokemonEvolution(response.chain.species.name, response.chain.species.url))
+            evolutionList.add(
+                PokemonEvolution(
+                    response.chain.species.name,
+                    response.chain.species.url
+                )
+            )
         } else {
             println(evolutionList)
             return evolutionList
@@ -116,7 +120,7 @@ object RetrofitUtils {
             }
         }
 
-            traverseEvolutionChain(response.chain.evolvesTo)
+        traverseEvolutionChain(response.chain.evolvesTo)
         println(evolutionList)
         return evolutionList
     }

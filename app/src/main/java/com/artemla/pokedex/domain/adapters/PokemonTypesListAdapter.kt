@@ -9,16 +9,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artemla.pokedex.R
 import com.artemla.pokedex.databinding.RvPokemonTypesItemBinding
-import com.artemla.pokedex.domain.PokemonTypeClickListener
+import com.artemla.pokedex.ui.listners.PokemonTypeClickListener
 import com.artemla.pokedex.domain.entities.PokemonType
 import com.artemla.pokedex.domain.entities.PokemonTypeListItem
 import java.util.Locale
 
-class PokemonTypeAdapter(private val context: Context, private val pokemonTypeList: List<PokemonTypeListItem>, private val clickListener: PokemonTypeClickListener) :
+class PokemonTypeAdapter(
+    private val context: Context,
+    private val pokemonTypeList: List<PokemonTypeListItem>,
+    private val clickListener: PokemonTypeClickListener
+) :
     RecyclerView.Adapter<PokemonTypeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = RvPokemonTypesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            RvPokemonTypesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -30,7 +35,8 @@ class PokemonTypeAdapter(private val context: Context, private val pokemonTypeLi
         return pokemonTypeList.size
     }
 
-    inner class ViewHolder(private val binding: RvPokemonTypesItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    inner class ViewHolder(private val binding: RvPokemonTypesItemBinding) :
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init {
             binding.root.setOnClickListener(this)
         }
@@ -44,13 +50,15 @@ class PokemonTypeAdapter(private val context: Context, private val pokemonTypeLi
         }
 
         fun bind(pokemonType: PokemonTypeListItem) {
-            if (pokemonType.pokemonType == PokemonType.ALL){
+            if (pokemonType.pokemonType == PokemonType.ALL) {
                 binding.rvPokemonTypesItemButton.text = context.getString(R.string.all_types)
             } else {
-            binding.rvPokemonTypesItemButton.text = pokemonType.pokemonType.name.lowercase(Locale.ENGLISH)
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
+                binding.rvPokemonTypesItemButton.text =
+                    pokemonType.pokemonType.name.lowercase(Locale.ENGLISH)
+                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
             }
-            binding.rvPokemonTypesItemButton.backgroundTintList =  ColorStateList.valueOf(Color.parseColor(pokemonType.color))
+            binding.rvPokemonTypesItemButton.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor(pokemonType.color))
             binding.rvPokemonTypesItemButton.setTextColor(Color.parseColor(pokemonType.textColor))
         }
     }

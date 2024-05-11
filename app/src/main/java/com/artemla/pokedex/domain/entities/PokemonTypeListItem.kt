@@ -1,6 +1,6 @@
 package com.artemla.pokedex.domain.entities
 
-data class PokemonTypeListItem (
+data class PokemonTypeListItem(
     val pokemonType: PokemonType,
     val color: String,
     val textColor: String
@@ -25,6 +25,5 @@ enum class PokemonType {
     DARK,
     STEEL,
     FAIRY,
-    ALL,
-    NEW
+    ALL
 }

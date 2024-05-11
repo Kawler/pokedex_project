@@ -2,25 +2,16 @@ package com.artemla.pokedex.domain.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.artemla.pokedex.R
-import com.artemla.pokedex.data.repositories.PokemonRepository
-import com.artemla.pokedex.data.singletons.PokemonTypeSingleton
-import com.artemla.pokedex.data.singletons.PokemonTypesUtils
+import com.artemla.pokedex.data.repositories.PokemonRepositoryImpl
+import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import com.artemla.pokedex.databinding.RvEvolutionItemBinding
-import com.artemla.pokedex.domain.entities.EvolutionSpecies
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.artemla.pokedex.domain.entities.PokemonEvolution
-import com.artemla.pokedex.domain.entities.PokemonType
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
@@ -49,6 +40,7 @@ class EvolutionAdapter(
     inner class ViewHolder(private val binding: RvEvolutionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val data = getData()
+
         @SuppressLint("SetTextI18n")
         fun bind() {
             val pokemon = data[adapterPosition]
@@ -71,7 +63,11 @@ class EvolutionAdapter(
                 )
                 binding.rvEvolutionType2.visibility = View.GONE
             }
-            PokemonTypesUtils.handlePokemonType(context,pokemon.types[0].type.name.lowercase(Locale.ENGLISH), binding.rvEvolutionBg)
+            PokemonTypesUtils.handlePokemonType(
+                context,
+                pokemon.types[0].type.name.lowercase(Locale.ENGLISH),
+                binding.rvEvolutionBg
+            )
             Glide
                 .with(itemView)
                 .load(pokemon.sprites.front_default)
@@ -84,10 +80,10 @@ class EvolutionAdapter(
     }
 
     private fun getData(): MutableList<PokemonDetailsResponse> {
-        val repository = PokemonRepository
+        val repository = PokemonRepositoryImpl
         val result: MutableList<PokemonDetailsResponse>
         runBlocking {
-            result = repository.fetchPokemonDetails(evolutionList.map { "pokemon/"+it.name })
+            result = repository.fetchPokemonDetails(evolutionList.map { "pokemon/" + it.name })
         }
         return result
     }

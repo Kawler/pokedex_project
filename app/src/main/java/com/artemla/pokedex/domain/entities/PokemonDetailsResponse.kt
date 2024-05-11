@@ -1,4 +1,5 @@
 package com.artemla.pokedex.domain.entities
+
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue

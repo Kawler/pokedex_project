@@ -1,4 +1,4 @@
-package com.artemla.pokedex.ui.modals.types
+package com.artemla.pokedex.ui.fragments.modals.types
 
 import androidx.lifecycle.ViewModel
 

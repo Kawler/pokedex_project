@@ -17,13 +17,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemla.pokedex.R
-import com.artemla.pokedex.data.singletons.PokemonTypeSingleton
+import com.artemla.pokedex.data.utils.PokemonTypeUtils
 import com.artemla.pokedex.databinding.FragmentPokemonBinding
 import com.artemla.pokedex.domain.adapters.EvolutionAdapter
 import com.artemla.pokedex.domain.adapters.WeaknessAdapter
-import com.artemla.pokedex.domain.entities.EqualSpacingItemDecoration
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.artemla.pokedex.domain.entities.PokemonType
+import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import com.bumptech.glide.Glide
 import java.util.Locale
 
@@ -40,8 +40,13 @@ class PokemonFragment() : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
         _binding = FragmentPokemonBinding.inflate(inflater, container, false)
-        val pokemonDetailsResponse : PokemonDetailsResponse = requireArguments().getParcelable("pokemonDetails")!!
-        handlePokemonType(requireContext(),pokemonDetailsResponse.types[0].type.name, binding.pokemonBg)
+        val pokemonDetailsResponse: PokemonDetailsResponse =
+            requireArguments().getParcelable("pokemonDetails")!!
+        handlePokemonType(
+            requireContext(),
+            pokemonDetailsResponse.types[0].type.name,
+            binding.pokemonBg
+        )
         if (pokemonDetailsResponse.sprites.front_default != null) {
             Glide
                 .with(requireContext())
@@ -49,26 +54,31 @@ class PokemonFragment() : Fragment() {
                 .placeholder(R.drawable.ic_question)
                 .into(binding.pokemonImg)
         } else {
-            binding.pokemonImg.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_question))
+            binding.pokemonImg.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_question
+                )
+            )
         }
         binding.pokemonHeight.text = pokemonDetailsResponse.height.toString()
         binding.pokemonName.text = pokemonDetailsResponse.name.lowercase(Locale.ENGLISH)
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
-        binding.pokemonIndex.text = "№"+pokemonDetailsResponse.id.toString()
+        binding.pokemonIndex.text = "№" + pokemonDetailsResponse.id.toString()
         binding.pokemonWeight.text = pokemonDetailsResponse.weight.toString()
         if (pokemonDetailsResponse.types.size > 1) {
             binding.pokemonType1.text = pokemonDetailsResponse.types[0].type.name
-            handlePokemonTypes(
+            PokemonTypesUtils.handlePokemonTypesText(
                 pokemonDetailsResponse.types[0].type.name.lowercase(Locale.ENGLISH),
                 binding.pokemonType1
             )
             binding.pokemonType2.text = pokemonDetailsResponse.types[1].type.name
-            handlePokemonTypes(
+            PokemonTypesUtils.handlePokemonTypesText(
                 pokemonDetailsResponse.types[1].type.name.lowercase(Locale.ENGLISH),
                 binding.pokemonType2
             )
         } else {
-            handlePokemonTypes(
+            PokemonTypesUtils.handlePokemonTypesText(
                 pokemonDetailsResponse.types[0].type.name.lowercase(Locale.ENGLISH),
                 binding.pokemonType1
             )
@@ -76,23 +86,22 @@ class PokemonFragment() : Fragment() {
             binding.pokemonType2.visibility = View.GONE
         }
 
-        binding.pokemonDescription.text = viewModel.getDescription(pokemonDetailsResponse.species.url)
+        binding.pokemonDescription.text =
+            viewModel.getDescription(pokemonDetailsResponse.species.url)
 
-        binding.pokemonWeaknessesRv.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.pokemonWeaknessesRv.adapter = WeaknessAdapter(pokemonDetailsResponse.types.map { getPokemonTypeFromString(it.type.name) })
-        if (viewModel.getEvolutions(pokemonDetailsResponse.species.url).size != null) {
-            binding.pokemonEvolutionsRv.layoutManager = LinearLayoutManager(requireContext())
-            binding.pokemonEvolutionsRv.adapter = EvolutionAdapter(
-                requireContext(),
-                viewModel.getEvolutions(pokemonDetailsResponse.species.url)
-            )
-        } else {
-            binding.pokemonEvolutionsRv.visibility = View.GONE
-            binding.pokemonEvolutionsText.visibility = View.GONE
-        }
+        binding.pokemonWeaknessesRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.pokemonWeaknessesRv.adapter =
+            WeaknessAdapter(pokemonDetailsResponse.types.map { getPokemonTypeFromString(it.type.name) })
+        binding.pokemonEvolutionsRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.pokemonEvolutionsRv.adapter = EvolutionAdapter(
+            requireContext(),
+            viewModel.getEvolutions(pokemonDetailsResponse.species.url)
+        )
 
-        binding.pokemonBackBtn.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.white))
-        binding.pokemonFavouriteBtn.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.favourite_inactive))
+        binding.pokemonBackBtn.backgroundTintList =
+            ColorStateList.valueOf(requireContext().getColor(R.color.white))
+        binding.pokemonFavouriteBtn.backgroundTintList =
+            ColorStateList.valueOf(requireContext().getColor(R.color.favourite_inactive))
         binding.pokemonBackBtn.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -120,48 +129,12 @@ class PokemonFragment() : Fragment() {
             "dark" -> PokemonType.DARK
             "steel" -> PokemonType.STEEL
             "fairy" -> PokemonType.FAIRY
-            else -> PokemonType.NEW
+            else -> PokemonType.ALL
         }
     }
 
-    private fun handlePokemonTypes(type: String, view: TextView) {
-        val pokemonTypeListItem =
-            PokemonTypeSingleton.pokemonTypeList.find { it.pokemonType.name.lowercase(Locale.ENGLISH) == type }
-        pokemonTypeListItem?.let {
-            val backgroundColor = Color.parseColor(it.color)
-            val textColor = Color.parseColor(it.textColor)
-            val iconDrawableRes = getIconDrawableRes(it.pokemonType)
-            view.backgroundTintList = ColorStateList.valueOf(backgroundColor)
-            view.setTextColor(textColor)
-            view.setCompoundDrawablesWithIntrinsicBounds(iconDrawableRes, 0, 0, 0)
-        }
-    }
 
-    private fun getIconDrawableRes(pokemonType: PokemonType): Int {
-        return when (pokemonType) {
-            PokemonType.NORMAL -> R.drawable.ic_normal_type
-            PokemonType.FIRE -> R.drawable.ic_fire_type
-            PokemonType.WATER -> R.drawable.ic_water_type
-            PokemonType.ELECTRIC -> R.drawable.ic_electric_type
-            PokemonType.GRASS -> R.drawable.ic_grass_type
-            PokemonType.ICE -> R.drawable.ic_ice_type
-            PokemonType.FIGHTING -> R.drawable.ic_fighting_type
-            PokemonType.POISON -> R.drawable.ic_poison_type
-            PokemonType.GROUND -> R.drawable.ic_ground_type
-            PokemonType.FLYING -> R.drawable.ic_flying_type
-            PokemonType.PSYCHIC -> R.drawable.ic_psychic_type
-            PokemonType.BUG -> R.drawable.ic_bug_type
-            PokemonType.ROCK -> R.drawable.ic_rock_type
-            PokemonType.GHOST -> R.drawable.ic_ghost_type
-            PokemonType.DRAGON -> R.drawable.ic_dragon_type
-            PokemonType.DARK -> R.drawable.ic_dark_type
-            PokemonType.STEEL -> R.drawable.ic_steel_type
-            PokemonType.FAIRY -> R.drawable.ic_fairy_type
-            else -> R.drawable.ic_normal_type // Default icon
-        }
-    }
-
-    private fun handlePokemonType(context: Context,type: String, view: ImageView) {
+    private fun handlePokemonType(context: Context, type: String, view: ImageView) {
         for (pokemonType in PokemonType.entries) {
             if (pokemonType.name.lowercase(Locale.ENGLISH) == type) {
                 when (pokemonType) {
@@ -256,9 +229,6 @@ class PokemonFragment() : Fragment() {
                     }
 
                     PokemonType.ALL -> {
-                    }
-
-                    PokemonType.NEW -> {
                     }
                 }
                 break

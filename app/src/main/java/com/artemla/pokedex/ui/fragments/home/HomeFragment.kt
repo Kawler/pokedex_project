@@ -11,16 +11,16 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.artemla.pokedex.MainActivityViewModel
+import com.artemla.pokedex.ui.activities.MainActivityViewModel
 import com.artemla.pokedex.R
 import com.artemla.pokedex.databinding.FragmentHomeBinding
-import com.artemla.pokedex.domain.PokemonListOrderListener
-import com.artemla.pokedex.domain.PokemonTypeClickListener
+import com.artemla.pokedex.ui.listners.PokemonListOrderListener
+import com.artemla.pokedex.ui.listners.PokemonTypeClickListener
 import com.artemla.pokedex.domain.adapters.PokemonListAdapter
 import com.artemla.pokedex.domain.entities.PokemonType
 import com.artemla.pokedex.domain.entities.PokemonTypeListItem
-import com.artemla.pokedex.ui.modals.order.OrderModalFragment
-import com.artemla.pokedex.ui.modals.types.TypesModalFragment
+import com.artemla.pokedex.ui.fragments.modals.order.OrderModalFragment
+import com.artemla.pokedex.ui.fragments.modals.types.TypesModalFragment
 import java.util.Locale
 import kotlin.math.abs
 

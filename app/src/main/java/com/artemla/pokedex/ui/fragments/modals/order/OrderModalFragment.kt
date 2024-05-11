@@ -1,17 +1,11 @@
-package com.artemla.pokedex.ui.modals.order
+package com.artemla.pokedex.ui.fragments.modals.order
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import com.artemla.pokedex.R
 import com.artemla.pokedex.databinding.FragmentOrderModalBinding
-import com.artemla.pokedex.databinding.FragmentTypesModalBinding
-import com.artemla.pokedex.domain.PokemonListOrderListener
-import com.artemla.pokedex.ui.modals.types.TypesModalFragment
+import com.artemla.pokedex.ui.listners.PokemonListOrderListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class OrderModalFragment : BottomSheetDialogFragment() {

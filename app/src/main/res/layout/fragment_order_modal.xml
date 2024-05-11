@@ -2,19 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_item_order"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:textColor="@color/black"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:text="@string/select_item_order"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,15 +31,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/smallest_index"
-                android:padding="10dp"
                 android:backgroundTint="@color/black"
-                android:textAlignment="center"
-                app:cornerRadius="30dp"
-                android:textSize="20sp"
                 android:clickable="false"
+                android:padding="10dp"
+                android:text="@string/smallest_index"
+                android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="30dp" />
 
             <!-- Button 2 -->
             <com.google.android.material.button.MaterialButton
@@ -47,15 +47,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/highest_index"
-                android:padding="10dp"
-                android:textAlignment="center"
                 android:backgroundTint="@color/black"
-                app:cornerRadius="30dp"
-                android:textSize="20sp"
                 android:clickable="false"
+                android:padding="10dp"
+                android:text="@string/highest_index"
+                android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="30dp" />
 
             <!-- Button 3 -->
             <com.google.android.material.button.MaterialButton
@@ -63,30 +63,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/a_z"
                 android:backgroundTint="@color/black"
-                android:textAlignment="center"
-                app:cornerRadius="30dp"
-                android:padding="10dp"
-                android:textSize="20sp"
                 android:clickable="false"
+                android:padding="10dp"
+                android:text="@string/a_z"
+                android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="30dp" />
 
             <!-- Button 4 -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/order_modal_za"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/z_a"
                 android:backgroundTint="@color/black"
-                android:textAlignment="center"
-                app:cornerRadius="30dp"
-                android:textSize="20sp"
-                android:padding="10dp"
                 android:clickable="false"
+                android:padding="10dp"
+                android:text="@string/z_a"
+                android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="30dp" />
 
         </LinearLayout>
     </ScrollView>

@@ -1,4 +1,4 @@
-package com.artemla.pokedex.domain
+package com.artemla.pokedex.ui.listners
 
 
 import com.artemla.pokedex.domain.entities.PokemonTypeListItem

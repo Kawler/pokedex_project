@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_margin="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/rv_weakness_item"
@@ -16,12 +16,12 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:lines="1"
-        android:textAlignment="center"
         android:paddingStart="30dp"
         android:paddingTop="8dp"
         android:paddingEnd="30dp"
         android:paddingBottom="8dp"
         android:text="Button 1"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"

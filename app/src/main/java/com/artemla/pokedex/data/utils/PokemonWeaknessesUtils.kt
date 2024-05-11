@@ -1,8 +1,8 @@
-package com.artemla.pokedex.data.singletons
+package com.artemla.pokedex.data.utils
 
 import com.artemla.pokedex.domain.entities.PokemonType
 
-object PokemonWeaknesses {
+object PokemonWeaknessesUtils {
     fun getWeaknesses(type: PokemonType): Set<String> {
         return when (type) {
             PokemonType.NORMAL -> setOf("Fighting")

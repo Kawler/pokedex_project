@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.artemla.pokedex.ui.fragments.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_pokemonFragment"
             app:destination="@id/navigation_pokemon" />
@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_pokemon">
         <argument
             android:name="pokemonDetails"
-            app:argType="com.artemla.pokedex.domain.entities.PokemonDetailsResponse"/>
+            app:argType="com.artemla.pokedex.domain.entities.PokemonDetailsResponse" />
     </fragment>
 
 </navigation>

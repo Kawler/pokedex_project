@@ -1,6 +1,6 @@
 package com.artemla.pokedex.domain.entities
 
-data class PokemonSpeciesResponse (
+data class PokemonSpeciesResponse(
     val evolution_chain: EvolutionUrl,
     val flavor_text_entries: List<FlavorTextEntry>
 )

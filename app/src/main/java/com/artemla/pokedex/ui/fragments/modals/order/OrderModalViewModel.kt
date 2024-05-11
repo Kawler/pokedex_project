@@ -1,4 +1,4 @@
-package com.artemla.pokedex.ui.modals.order
+package com.artemla.pokedex.ui.fragments.modals.order
 
 import androidx.lifecycle.ViewModel
 

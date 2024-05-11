@@ -1,15 +1,10 @@
 package com.artemla.pokedex.domain.adapters
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.artemla.pokedex.R
-import com.artemla.pokedex.data.singletons.PokemonTypeSingleton
-import com.artemla.pokedex.data.singletons.PokemonTypesUtils
-import com.artemla.pokedex.data.singletons.PokemonWeaknesses
+import com.artemla.pokedex.domain.utils.PokemonTypesUtils
+import com.artemla.pokedex.data.utils.PokemonWeaknessesUtils
 import com.artemla.pokedex.databinding.RvWeaknessItemBinding
 import com.artemla.pokedex.domain.entities.PokemonType
 import java.util.Locale
@@ -40,14 +35,14 @@ class WeaknessAdapter(private val pokemonTypes: List<PokemonType>) :
         fun bind(weakness: String) {
             binding.rvWeaknessItem.text = weakness.lowercase(Locale.ENGLISH)
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
-            PokemonTypesUtils.handlePokemonTypesText(weakness,binding.rvWeaknessItem)
+            PokemonTypesUtils.handlePokemonTypesText(weakness, binding.rvWeaknessItem)
         }
     }
 
     private fun getUniqueWeaknesses(): Set<String> {
         val allWeaknesses = mutableSetOf<String>()
         for (type in pokemonTypes) {
-            val weaknesses = PokemonWeaknesses.getWeaknesses(type)
+            val weaknesses = PokemonWeaknessesUtils.getWeaknesses(type)
             allWeaknesses.addAll(weaknesses)
         }
         return allWeaknesses

@@ -8,12 +8,12 @@
         android:id="@+id/modal_types_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/modal_types_hint"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:textColor="@color/black"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="@string/modal_types_hint"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/modal_types_rv"
@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:clipToPadding="false"
-        android:padding="10dp"/>
+        android:padding="10dp" />
 
 </LinearLayout>

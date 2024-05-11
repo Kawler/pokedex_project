@@ -1,17 +1,14 @@
-package com.artemla.pokedex
+package com.artemla.pokedex.ui.activities
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.artemla.pokedex.R
 import com.artemla.pokedex.databinding.ActivityMainBinding
-import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

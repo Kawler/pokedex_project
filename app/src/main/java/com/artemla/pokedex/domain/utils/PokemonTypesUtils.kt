@@ -1,4 +1,4 @@
-package com.artemla.pokedex.data.singletons
+package com.artemla.pokedex.domain.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -9,25 +9,25 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.artemla.pokedex.R
+import com.artemla.pokedex.data.utils.PokemonTypeUtils
 import com.artemla.pokedex.domain.entities.PokemonType
-import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
 object PokemonTypesUtils {
     @JvmStatic
-    fun handlePokemonTypesImage(context: Context,type: String, view: ImageView) {
+    fun handlePokemonTypesImage(context: Context, type: String, view: ImageView) {
         val pokemonTypeListItem =
-            PokemonTypeSingleton.pokemonTypeList.find { it.pokemonType.name.lowercase(Locale.ENGLISH) == type }
+            PokemonTypeUtils.pokemonTypeList.find { it.pokemonType.name.lowercase(Locale.ENGLISH) == type }
         pokemonTypeListItem?.let {
             val backgroundColor = Color.parseColor(it.color)
             val iconDrawableRes = getIconDrawableRes(it.pokemonType)
             view.backgroundTintList = ColorStateList.valueOf(backgroundColor)
-            view.setImageDrawable(AppCompatResources.getDrawable(context,iconDrawableRes))
+            view.setImageDrawable(AppCompatResources.getDrawable(context, iconDrawableRes))
         }
     }
 
     @JvmStatic
-    fun handlePokemonType(context: Context,type: String, view: View) {
+    fun handlePokemonType(context: Context, type: String, view: View) {
         for (pokemonType in PokemonType.entries) {
             if (pokemonType.name.lowercase(Locale.ENGLISH) == type.lowercase(Locale.ENGLISH)) {
                 when (pokemonType) {
@@ -122,10 +122,9 @@ object PokemonTypesUtils {
                     }
 
                     PokemonType.ALL -> {
+
                     }
 
-                    PokemonType.NEW -> {
-                    }
                 }
                 break
             }
@@ -135,8 +134,11 @@ object PokemonTypesUtils {
     @JvmStatic
     fun handlePokemonTypesText(type: String, view: TextView) {
         val pokemonTypeListItem =
-            PokemonTypeSingleton.pokemonTypeList.find { it.pokemonType.name.lowercase(Locale.ENGLISH) == type.lowercase(
-                Locale.ENGLISH) }
+            PokemonTypeUtils.pokemonTypeList.find {
+                it.pokemonType.name.lowercase(Locale.ENGLISH) == type.lowercase(
+                    Locale.ENGLISH
+                )
+            }
         pokemonTypeListItem?.let {
             val backgroundColor = Color.parseColor(it.color)
             val textColor = Color.parseColor(it.textColor)
