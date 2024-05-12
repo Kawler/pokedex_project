@@ -39,29 +39,40 @@ class PokemonFragment() : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
         _binding = FragmentPokemonBinding.inflate(inflater, container, false)
-        val pokemonDetailsResponse: PokemonDetailsResponse = requireArguments().getParcelable("pokemonDetails")!!
+        val pokemonDetailsResponse: PokemonDetailsResponse =
+            requireArguments().getParcelable("pokemonDetails")!!
         setupViews(binding, pokemonDetailsResponse)
         setupButtonListeners(binding)
         return binding.root
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupViews(binding: FragmentPokemonBinding, pokemonDetailsResponse: PokemonDetailsResponse) {
+    private fun setupViews(
+        binding: FragmentPokemonBinding,
+        pokemonDetailsResponse: PokemonDetailsResponse
+    ) {
         handlePokemonType(requireContext(), pokemonDetailsResponse.types, binding.pokemonBg)
         setupPokemonImage(binding.pokemonImg, pokemonDetailsResponse.sprites.front_default)
         binding.apply {
             pokemonHeight.text = pokemonDetailsResponse.height.toString()
             pokemonName.text = formatPokemonName(pokemonDetailsResponse.name)
-            pokemonIndex.text = "№"+pokemonDetailsResponse.id.toString()
+            pokemonIndex.text = "№" + pokemonDetailsResponse.id.toString()
             pokemonWeight.text = pokemonDetailsResponse.weight.toString()
             setupPokemonTypes(binding, pokemonDetailsResponse.types)
             pokemonDescription.text = viewModel.getDescription(pokemonDetailsResponse.species.url)
             setupWeaknessesRecyclerView(pokemonDetailsResponse.types, binding.pokemonWeaknessesRv)
-            setupEvolutionsRecyclerView(binding.pokemonEvolutionsRv, pokemonDetailsResponse.species.url)
+            setupEvolutionsRecyclerView(
+                binding.pokemonEvolutionsRv,
+                pokemonDetailsResponse.species.url
+            )
         }
     }
 
-    private fun handlePokemonType(context: Context, types: List<TypeResponse>, imageView: ImageView) {
+    private fun handlePokemonType(
+        context: Context,
+        types: List<TypeResponse>,
+        imageView: ImageView
+    ) {
         val typeName = types.firstOrNull()?.type?.name ?: return
         handlePokemonType(context, typeName, imageView)
     }
@@ -73,25 +84,40 @@ class PokemonFragment() : Fragment() {
                 .placeholder(R.drawable.ic_question)
                 .into(imageView)
         } else {
-            imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_question))
+            imageView.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_question
+                )
+            )
         }
     }
 
     private fun formatPokemonName(name: String): String {
-        return name.lowercase(Locale.ENGLISH).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
+        return name.lowercase(Locale.ENGLISH)
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
     }
 
     private fun setupPokemonTypes(binding: FragmentPokemonBinding, types: List<TypeResponse>) {
         if (types.size > 1) {
             binding.apply {
                 pokemonType1.text = types[0].type.name
-                PokemonTypesUtils.handlePokemonTypesText(types[0].type.name.lowercase(Locale.ENGLISH), pokemonType1)
+                PokemonTypesUtils.handlePokemonTypesText(
+                    types[0].type.name.lowercase(Locale.ENGLISH),
+                    pokemonType1
+                )
                 pokemonType2.text = types[1].type.name
-                PokemonTypesUtils.handlePokemonTypesText(types[1].type.name.lowercase(Locale.ENGLISH), pokemonType2)
+                PokemonTypesUtils.handlePokemonTypesText(
+                    types[1].type.name.lowercase(Locale.ENGLISH),
+                    pokemonType2
+                )
             }
         } else {
             val typeName = types.firstOrNull()?.type?.name ?: return
-            PokemonTypesUtils.handlePokemonTypesText(typeName.lowercase(Locale.ENGLISH), binding.pokemonType1)
+            PokemonTypesUtils.handlePokemonTypesText(
+                typeName.lowercase(Locale.ENGLISH),
+                binding.pokemonType1
+            )
             binding.pokemonType1.text = typeName
             binding.pokemonType2.visibility = View.GONE
         }
@@ -104,13 +130,16 @@ class PokemonFragment() : Fragment() {
 
     private fun setupEvolutionsRecyclerView(recyclerView: RecyclerView, speciesUrl: String) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = EvolutionAdapter(requireContext(), viewModel.getEvolutions(speciesUrl))
+        recyclerView.adapter =
+            EvolutionAdapter(requireContext(), viewModel.getEvolutions(speciesUrl))
     }
 
     private fun setupButtonListeners(binding: FragmentPokemonBinding) {
         binding.apply {
-            pokemonBackBtn.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.white))
-            pokemonFavouriteBtn.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.favourite_inactive))
+            pokemonBackBtn.backgroundTintList =
+                ColorStateList.valueOf(requireContext().getColor(R.color.white))
+            pokemonFavouriteBtn.backgroundTintList =
+                ColorStateList.valueOf(requireContext().getColor(R.color.favourite_inactive))
             pokemonBackBtn.setOnClickListener {
                 findNavController().navigateUp()
             }
