@@ -24,6 +24,8 @@ class RegionAdapter(private val regions: Array<Region>, private val context: Con
         fun bind(region: Region) {
             binding.regionItemName.text = region.name.name.lowercase(Locale.ENGLISH)
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
+            binding.regionOutlinedName.text = region.name.name.lowercase(Locale.ENGLISH)
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ENGLISH) else it.toString() }
             handleRegionType(
                 region.name,
                 binding.regionItemDescription,

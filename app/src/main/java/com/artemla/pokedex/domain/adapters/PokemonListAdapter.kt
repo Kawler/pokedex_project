@@ -110,6 +110,8 @@ class PokemonListAdapter(private val context: Context) :
         }
     }
 
+
+
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {

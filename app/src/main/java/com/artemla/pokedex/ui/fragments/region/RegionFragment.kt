@@ -22,9 +22,13 @@ class RegionFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this)[RegionViewModel::class.java]
         _binding = FragmentRegionBinding.inflate(inflater, container, false)
+        setupRV()
+        return binding.root
+    }
+
+    private fun setupRV() {
         binding.regionRv.layoutManager = LinearLayoutManager(context)
         binding.regionRv.adapter = RegionAdapter(viewModel.getRegionsList(), requireContext())
-        return binding.root
     }
 
     override fun onDestroy() {

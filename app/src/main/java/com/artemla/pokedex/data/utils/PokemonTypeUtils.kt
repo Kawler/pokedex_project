@@ -5,6 +5,7 @@ import com.artemla.pokedex.domain.entities.PokemonTypeListItem
 
 object PokemonTypeUtils {
     val pokemonTypeList: List<PokemonTypeListItem> = listOf(
+        PokemonTypeListItem(PokemonType.ALL, "#000000", "#FFFFFF"),
         PokemonTypeListItem(PokemonType.NORMAL, "#808080", "#000000"),   // Normal
         PokemonTypeListItem(PokemonType.FIRE, "#F08030", "#000000"),     // Fire
         PokemonTypeListItem(PokemonType.WATER, "#6890F0", "#000000"),    // Water

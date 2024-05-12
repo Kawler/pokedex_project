@@ -23,19 +23,25 @@ class TypesModalFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTypesModalBinding.inflate(inflater, container, false)
+        adjustDialogHeight()
+        setupRecyclerView()
+        return binding.root
+    }
 
+    private fun adjustDialogHeight() {
         val screenHeight = resources.displayMetrics.heightPixels
         val dialogHeight = (screenHeight * 0.7).toInt()
         binding.root.layoutParams =
             FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, dialogHeight)
+    }
+
+    private fun setupRecyclerView() {
         binding.modalTypesRv.layoutManager = LinearLayoutManager(context)
         binding.modalTypesRv.adapter = PokemonTypeAdapter(
             requireContext(),
             PokemonTypeUtils.pokemonTypeList,
             parentFragment as PokemonTypeClickListener
         )
-
-        return binding.root
     }
 
     override fun onDestroy() {

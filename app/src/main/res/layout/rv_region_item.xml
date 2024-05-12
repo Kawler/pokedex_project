@@ -18,20 +18,39 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/region_item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
             <ImageView
                 android:id="@+id/region_item_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp">
+
+                <TextView
+                    android:id="@+id/region_outlined_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:layout_margin="2dp"/>
+
+                <TextView
+                    android:id="@+id/region_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
 

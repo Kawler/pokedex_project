@@ -38,11 +38,19 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (this::binding.isInitialized) {
-            binding
-        } else {
-            viewModel =
-                ViewModelProvider(this)[HomeViewModel::class.java]
+        initializeViews(inflater, container)
+        setupListeners()
+        observeViewModel()
+
+        return binding.root
+    }
+
+    private fun initializeViews(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) {
+        if (!this::binding.isInitialized) {
+            viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
             binding = FragmentHomeBinding.inflate(inflater, container, false)
 
             binding.homeFilterBtnType.setOnClickListener {
@@ -72,9 +80,10 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
                     binding.homeFab.visibility = View.GONE
                 }
             }
-
         }
+    }
 
+    private fun setupListeners() {
         binding.homeFab.setOnClickListener {
             binding.homeAppbarLayout.setExpanded(true)
             binding.homeRv.scrollToPosition(0)
@@ -90,16 +99,13 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
                 return true
             }
         })
+    }
 
+    private fun observeViewModel() {
         activityViewModel.pokemonData.observe(viewLifecycleOwner) { pokemonData ->
             binding.homeLoading.visibility = View.GONE
             pokemonListAdapter.addData(pokemonData)
         }
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     companion object {
