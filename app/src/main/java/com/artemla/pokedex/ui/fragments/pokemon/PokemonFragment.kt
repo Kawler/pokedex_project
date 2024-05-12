@@ -3,13 +3,11 @@ package com.artemla.pokedex.ui.fragments.pokemon
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemla.pokedex.R
-import com.artemla.pokedex.data.utils.PokemonTypeUtils
 import com.artemla.pokedex.databinding.FragmentPokemonBinding
 import com.artemla.pokedex.domain.adapters.EvolutionAdapter
 import com.artemla.pokedex.domain.adapters.WeaknessAdapter

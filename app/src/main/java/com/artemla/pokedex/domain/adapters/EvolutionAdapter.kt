@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artemla.pokedex.R
 import com.artemla.pokedex.data.repositories.PokemonRepositoryImpl
-import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import com.artemla.pokedex.databinding.RvEvolutionItemBinding
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.artemla.pokedex.domain.entities.PokemonEvolution
+import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.runBlocking
 import java.util.Locale

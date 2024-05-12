@@ -1,13 +1,13 @@
 package com.artemla.pokedex.data.repositories
 
-import com.artemla.pokedex.domain.utils.RetrofitUtils
 import com.artemla.pokedex.domain.entities.PokemonDetailsResponse
 import com.artemla.pokedex.domain.entities.PokemonEvolution
 import com.artemla.pokedex.domain.entities.PokemonListItem
 import com.artemla.pokedex.domain.entities.PokemonSpeciesResponse
 import com.artemla.pokedex.domain.repositories.PokemonRepository
+import com.artemla.pokedex.domain.utils.RetrofitUtils
 
-object PokemonRepositoryImpl: PokemonRepository {
+object PokemonRepositoryImpl : PokemonRepository {
     private val retrofitUtils = RetrofitUtils
 
     override suspend fun fetchPokemonCount(): Int {

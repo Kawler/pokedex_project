@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artemla.pokedex.R
 import com.artemla.pokedex.databinding.RvPokemonTypesItemBinding
-import com.artemla.pokedex.ui.listners.PokemonTypeClickListener
 import com.artemla.pokedex.domain.entities.PokemonType
 import com.artemla.pokedex.domain.entities.PokemonTypeListItem
+import com.artemla.pokedex.ui.listners.PokemonTypeClickListener
 import java.util.Locale
 
 class PokemonTypeAdapter(

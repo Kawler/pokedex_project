@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemla.pokedex.databinding.FragmentRegionBinding
+import com.artemla.pokedex.domain.adapters.RegionAdapter
 
 class RegionFragment : Fragment() {
 
@@ -20,6 +22,8 @@ class RegionFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this)[RegionViewModel::class.java]
         _binding = FragmentRegionBinding.inflate(inflater, container, false)
+        binding.regionRv.layoutManager = LinearLayoutManager(context)
+        binding.regionRv.adapter = RegionAdapter(viewModel.getRegionsList(), requireContext())
         return binding.root
     }
 

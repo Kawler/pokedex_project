@@ -3,10 +3,10 @@ package com.artemla.pokedex.domain.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import com.artemla.pokedex.data.utils.PokemonWeaknessesUtils
 import com.artemla.pokedex.databinding.RvWeaknessItemBinding
 import com.artemla.pokedex.domain.entities.PokemonType
+import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import java.util.Locale
 
 class WeaknessAdapter(private val pokemonTypes: List<PokemonType>) :

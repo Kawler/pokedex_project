@@ -8,8 +8,8 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemla.pokedex.data.utils.PokemonTypeUtils
 import com.artemla.pokedex.databinding.FragmentTypesModalBinding
-import com.artemla.pokedex.ui.listners.PokemonTypeClickListener
 import com.artemla.pokedex.domain.adapters.PokemonTypeAdapter
+import com.artemla.pokedex.ui.listners.PokemonTypeClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class TypesModalFragment : BottomSheetDialogFragment() {

@@ -15,11 +15,11 @@
             android:id="@+id/pokemon_no_internet_connection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:textColor="@color/dark_grey"
-            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:layout_gravity="center_horizontal"/>
+            android:textColor="@color/dark_grey"
+            android:textSize="19sp"
+            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pokemon_img_box"

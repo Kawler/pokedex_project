@@ -113,7 +113,12 @@ object RetrofitUtils {
 
             fun traverseEvolutionChain(evolvesTo: List<EvolvesTo>) {
                 for (evolution in evolvesTo) {
-                    evolutionList.add(PokemonEvolution(evolution.species.name, evolution.species.url))
+                    evolutionList.add(
+                        PokemonEvolution(
+                            evolution.species.name,
+                            evolution.species.url
+                        )
+                    )
                     traverseEvolutionChain(evolution.evolvesTo)
                 }
             }
