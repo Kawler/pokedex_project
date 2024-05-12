@@ -23,6 +23,6 @@
     <string name="weight">Weight</string>
     <string name="evolutions">Evolutions</string>
     <string name="pokemon">Pokemon</string>
-    <string name="loading_message">Currently trying to load data. If this process takes to long, check you internet connection</string>
+    <string name="loading_message">Currently trying to load data. If this process takes to long, check you internet connection and restart the app</string>
     <string name="favourite_not_ready">Currently not implemented</string>
 </resources>
