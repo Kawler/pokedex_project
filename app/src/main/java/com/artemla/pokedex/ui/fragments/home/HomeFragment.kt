@@ -76,6 +76,7 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
         }
 
         binding.homeFab.setOnClickListener {
+            binding.homeAppbarLayout.setExpanded(true)
             binding.homeRv.scrollToPosition(0)
         }
 
@@ -91,6 +92,7 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
         })
 
         activityViewModel.pokemonData.observe(viewLifecycleOwner) { pokemonData ->
+            binding.homeLoading.visibility = View.GONE
             pokemonListAdapter.addData(pokemonData)
         }
         return binding.root

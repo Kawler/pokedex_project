@@ -128,8 +128,15 @@ class PokemonListAdapter(private val context: Context) :
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                @Suppress("UNCHECKED_CAST")
-                filteredPokemonSet = results?.values as MutableSet<PokemonDetailsResponse>
+                val values = results?.values
+                if (values is MutableList<*>) {
+                    @Suppress("UNCHECKED_CAST")
+                    val data = values as MutableList<PokemonDetailsResponse>
+                    filteredPokemonSet = data.toMutableSet()
+                } else if (values is MutableSet<*>) {
+                    @Suppress("UNCHECKED_CAST")
+                    filteredPokemonSet = values as MutableSet<PokemonDetailsResponse>
+                }
                 notifyDataSetChanged()
             }
         }

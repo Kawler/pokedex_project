@@ -12,4 +12,5 @@
     <color name="pokemon_bg_color">#f1f6e8</color>
     <color name="favourite_inactive">#FFFFFFFF</color>
     <color name="favourite_active">#ED0845</color>
+    <color name="blue">#9A083DEA</color>
 </resources>

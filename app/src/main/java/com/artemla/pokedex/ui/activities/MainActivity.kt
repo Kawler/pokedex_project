@@ -1,14 +1,17 @@
 package com.artemla.pokedex.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.artemla.pokedex.R
 import com.artemla.pokedex.databinding.ActivityMainBinding
+import com.artemla.pokedex.domain.utils.PreferencesUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -18,10 +21,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        installSplashScreen()
+        val preferences = PreferencesUtils.getInstance(context = applicationContext)
+        viewModel.fetchDataFromApi()
+        startIntro(preferences.isFirstLaunch())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.fetchDataFromApi()
 
         setNavbar()
     }
@@ -53,5 +58,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun startIntro(firstLaunch: Boolean) {
+        if (firstLaunch) {
+            intent = Intent(applicationContext, PokedexAppIntro::class.java)
+            startActivity(intent)
+        }
     }
 }
