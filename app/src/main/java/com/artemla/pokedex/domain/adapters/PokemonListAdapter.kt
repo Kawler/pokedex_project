@@ -3,6 +3,7 @@ package com.artemla.pokedex.domain.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,10 @@ import com.artemla.pokedex.domain.entities.PokemonType
 import com.artemla.pokedex.domain.utils.PokemonTypesUtils
 import com.artemla.pokedex.ui.fragments.home.HomeFragmentDirections
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import java.util.Locale
 
-class PokemonListAdapter(private val context: Context) :
+class PokemonListAdapter(private val context: Context, private val typesButton: MaterialButton) :
     RecyclerView.Adapter<PokemonListAdapter.PokemonViewHolder>(), Filterable {
 
     private val pokemonSet = mutableSetOf<PokemonDetailsResponse>()
@@ -187,6 +189,11 @@ class PokemonListAdapter(private val context: Context) :
                 type.type.name.equals(pokemonType.name, ignoreCase = true)
             }
         })
+        if (filteredPokemonSet.size == 0) {
+            typesButton.text = context.getString(R.string.all_types)
+            typesButton.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+            typesButton.setTextColor(Color.WHITE)
+        }
         notifyDataSetChanged()
     }
 

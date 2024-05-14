@@ -68,7 +68,7 @@ class HomeFragment : Fragment(), PokemonTypeClickListener, PokemonListOrderListe
             }
 
             binding.homeRv.layoutManager = LinearLayoutManager(requireContext())
-            pokemonListAdapter = PokemonListAdapter(requireContext())
+            pokemonListAdapter = PokemonListAdapter(requireContext(), binding.homeFilterBtnType)
             binding.homeRv.adapter = pokemonListAdapter
 
             binding.homeAppbarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
